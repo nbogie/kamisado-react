@@ -1,9 +1,16 @@
+import { positionToString } from "./createInitialGrid";
+
 export interface GameState {
+    winState: { type: "in-play" } | { type: "won"; winner: PlayerColour };
+    nextFlavour: Flavour | null;
+    whoseTurn: PlayerColour;
     grid: Grid;
     selection: {
         from: Position | null;
         to: Position | null;
     };
+    //TODO: maintain last destination cell instead of nextFlavour directly
+    //and highlight this cell for the players.
 }
 
 export interface Grid {
@@ -12,7 +19,7 @@ export interface Grid {
 
 export interface Cell {
     position: Position;
-    colour: Flavour;
+    flavour: Flavour;
     piece?: Piece;
 }
 export type PieceId = string;
@@ -34,3 +41,22 @@ export type Flavour =
 export type PieceType = "standard";
 export type PlayerColour = "white" | "black";
 export type Position = { x: number; y: number };
+
+type CompleteSelection = { from: Position; to: Position };
+export function selectionIsComplete(
+    selection: GameState["selection"]
+): selection is CompleteSelection {
+    return selection.from !== null && selection.to !== null;
+}
+
+export function cellAt(pos: Position, gs: GameState): Cell {
+    const cell = gs.grid.rows[pos.y][pos.x];
+    if (!cell) {
+        throw new Error("No cell (invalid position?) " + positionToString(pos));
+    }
+    return cell;
+}
+export function pieceAt(pos: Position, gs: GameState): Piece | null {
+    const cell = cellAt(pos, gs);
+    return cell?.piece ?? null;
+}

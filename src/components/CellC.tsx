@@ -12,7 +12,7 @@ export function CellC({
 }) {
     return (
         <div
-            className={"cell " + cell.colour}
+            className={"cell " + cell.flavour}
             onClick={() =>
                 dispatch({
                     type: "clicked",

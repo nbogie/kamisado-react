@@ -11,7 +11,6 @@ function App() {
         createInitialGameState()
     );
 
-    console.log({ gameState });
     return (
         <div className="App">
             <div className="grid">
@@ -29,6 +28,10 @@ function App() {
                     ))
                 )}
             </div>
+            <div>whose turn: {gameState.whoseTurn}</div>
+            <div>win state: {gameState.winState.type}</div>
+            <div>selection: {JSON.stringify(gameState.selection)}</div>
+            <div>next flavour: {gameState.nextFlavour}</div>
         </div>
     );
 }

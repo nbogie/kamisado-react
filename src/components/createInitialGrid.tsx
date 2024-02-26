@@ -15,10 +15,9 @@ export function createInitialGrid(): Grid {
         for (let colIx = 0; colIx < 8; colIx++) {
             const pos: Position = { x: colIx, y: rowIx };
             const piece = pieceForStartingPosition(pos) ?? undefined;
-            console.log({ piece, pos });
             const cell: Cell = {
                 position: pos,
-                colour: colourForPosition(pos),
+                flavour: colourForPosition(pos),
                 piece: piece,
             };
             row.push(cell);

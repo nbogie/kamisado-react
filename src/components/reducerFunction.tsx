@@ -1,4 +1,11 @@
-import { GameState, Position } from "./GameState";
+import {
+    GameState,
+    PlayerColour,
+    Position,
+    cellAt,
+    pieceAt,
+    selectionIsComplete,
+} from "./GameState";
 
 export type Action = ClickedAction;
 export type ClickedAction = { type: "clicked"; pos: Position };
@@ -7,13 +14,20 @@ export function reducerFunction(gs: GameState, action: Action) {
     switch (action.type) {
         case "clicked": {
             if (!gs.selection.from) {
+                const p = pieceAt(action.pos, gs);
+                if (
+                    !p ||
+                    p.owner !== gs.whoseTurn ||
+                    p.flavour !== gs.nextFlavour
+                ) {
+                    return;
+                }
                 gs.selection.from = action.pos;
             } else {
                 gs.selection.to = action.pos;
             }
 
             if (selectionIsComplete(gs.selection)) {
-                console.log("selection IS complete");
                 moveSelectedPiece(gs);
             }
             break;
@@ -21,38 +35,45 @@ export function reducerFunction(gs: GameState, action: Action) {
     }
 }
 
-type CompleteSelection = { from: Position; to: Position };
-function selectionIsComplete(
-    selection: GameState["selection"]
-): selection is CompleteSelection {
-    return selection.from !== null && selection.to !== null;
-}
 function moveSelectedPiece(gs: GameState) {
     if (!selectionIsComplete(gs.selection)) {
         throw new Error("selection is not complete");
     }
     const { from, to } = gs.selection;
-    const fromCell = gs.grid.rows[from.y][from.x];
-    const toCell = gs.grid.rows[to.y][to.x];
+    const fromCell = cellAt(from, gs);
+    const toCell = cellAt(to, gs);
+
+    if (!isOnLine(from, to)) {
+        clearSelection(gs);
+        return;
+    }
+
     if (!fromCell.piece) {
         clearSelection(gs);
-
         return;
     }
     if (toCell.piece) {
         clearSelection(gs);
-
         return;
     }
-    if (!isOnLine(from, to)) {
-        clearSelection(gs);
 
-        return;
-    }
     const pieceToMove = fromCell.piece;
+    if (pieceToMove.owner !== gs.whoseTurn) {
+        return;
+    }
+    if (gs.nextFlavour && gs.nextFlavour !== pieceToMove.flavour) {
+        clearSelection(gs);
+        return;
+    }
+
     fromCell.piece = undefined;
     toCell.piece = pieceToMove;
-    console.log("moved piece");
+    gs.nextFlavour = toCell.flavour;
+
+    if (isPositionInEndGoalFor(to, pieceToMove.owner)) {
+        gs.winState = { type: "won", winner: pieceToMove.owner };
+    }
+    flipWhoseTurn(gs);
     clearSelection(gs);
 }
 function clearSelection(gs: GameState) {
@@ -64,4 +85,12 @@ function isOnLine(from: Position, to: Position) {
         from.y === to.y ||
         Math.abs(from.x - to.x) === Math.abs(from.y - to.y)
     );
+}
+function isPositionInEndGoalFor(to: Position, owner: PlayerColour) {
+    return (
+        (to.y === 0 && owner === "black") || (to.y === 7 && owner === "white")
+    );
+}
+function flipWhoseTurn(gs: GameState) {
+    gs.whoseTurn = gs.whoseTurn === "white" ? "black" : "white";
 }
