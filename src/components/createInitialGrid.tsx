@@ -1,15 +1,25 @@
-import { Cell, Flavour, Grid, Position } from "./GameState";
+import {
+    Cell,
+    Flavour,
+    Grid,
+    Piece,
+    PlayerColour,
+    Position,
+} from "./GameState";
 
 export function createInitialGrid(): Grid {
     const rows = [];
-    for (let colIx = 0; colIx < 8; colIx++) {
+    for (let rowIx = 0; rowIx < 8; rowIx++) {
         const row: Cell[] = [];
         rows.push(row);
-        for (let rowIx = 0; rowIx < 8; rowIx++) {
+        for (let colIx = 0; colIx < 8; colIx++) {
             const pos: Position = { x: colIx, y: rowIx };
+            const piece = pieceForStartingPosition(pos) ?? undefined;
+            console.log({ piece, pos });
             const cell: Cell = {
                 position: pos,
                 colour: colourForPosition(pos),
+                piece: piece,
             };
             row.push(cell);
         }
@@ -49,4 +59,20 @@ export function colourForPosition(pos: Position): Flavour {
 
 export function positionToString(position: Position): string {
     return `${position.x},${position.y}`;
+}
+function pieceForStartingPosition(pos: Position): Piece | null {
+    if (pos.y !== 0 && pos.y !== 7) {
+        return null;
+    }
+
+    const playerColour: PlayerColour = pos.y === 0 ? "white" : "black";
+
+    const flavour = colourForPosition(pos);
+
+    return {
+        type: "standard",
+        flavour,
+        owner: playerColour,
+        id: "piece_" + playerColour + "_" + flavour,
+    };
 }

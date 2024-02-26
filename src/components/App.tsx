@@ -26,6 +26,18 @@ function App() {
                                 })
                             }
                         >
+                            {cell.piece && (
+                                <div
+                                    className={
+                                        "piece " +
+                                        cell.piece.owner +
+                                        " " +
+                                        cell.piece.flavour
+                                    }
+                                >
+                                    {cell.piece.flavour}
+                                </div>
+                            )}
                             {cell.colour}
                         </div>
                     ))

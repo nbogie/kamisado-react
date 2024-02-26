@@ -11,7 +11,13 @@ export interface Cell {
     colour: Flavour;
     piece?: Piece;
 }
-export type Piece = { type: PieceType; flavour: Flavour; owner: PlayerColour };
+export type PieceId = string;
+export type Piece = {
+    id: PieceId;
+    type: PieceType;
+    flavour: Flavour;
+    owner: PlayerColour;
+};
 export type Flavour =
     | "orange"
     | "blue"

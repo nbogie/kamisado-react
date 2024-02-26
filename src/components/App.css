@@ -15,29 +15,56 @@ html {
 .cell {
     display: grid;
     place-items: center;
+    position: relative;
 }
 
+.piece {
+    z-index: 1;
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    outline: 0.5rem solid #333;
+}
+.piece.black {
+    outline-color: #333;
+}
+.piece.white {
+    outline-color: #fff;
+}
+
+.piece.yellow,
 .cell.yellow {
     background-color: yellow;
 }
+.piece.orange,
 .cell.orange {
     background-color: orange;
 }
+.piece.pink,
 .cell.pink {
     background-color: pink;
 }
+.piece.purple,
 .cell.purple {
     background-color: purple;
 }
+.piece.blue,
 .cell.blue {
     background-color: dodgerblue;
 }
+.piece.green,
 .cell.green {
     background-color: green;
 }
+.piece.red,
 .cell.red {
     background-color: tomato;
 }
+.piece.brown,
 .cell.brown {
     background-color: rgb(141, 57, 27);
 }
