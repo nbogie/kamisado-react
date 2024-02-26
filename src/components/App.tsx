@@ -1,19 +1,23 @@
 import { useImmerReducer } from "use-immer";
-import "./App.css";
+import { calcCellForNextPlay } from "../gameCore/GameState";
 import { createInitialGameState } from "../gameCore/createInitialGameState";
 import { positionToString } from "../gameCore/createInitialGrid";
 import { reducerFunction } from "../gameCore/reducerFunction";
+import "./App.css";
 import { CellC } from "./CellC";
 import { GameOverOverlay } from "./GameOverOverlay";
+import { areSamePosition } from "../gameCore/position";
 
 function App() {
     const [gameState, dispatch] = useImmerReducer(
         reducerFunction,
         createInitialGameState()
     );
+    const cellForNextPlay = calcCellForNextPlay(gameState);
 
     return (
         <div className="App">
+            <h1>Kamisado</h1>
             <div className="grid">
                 {gameState.winState.type === "won" && (
                     <GameOverOverlay
@@ -28,6 +32,13 @@ function App() {
                                 cell.piece
                                     ? cell.piece.id
                                     : positionToString(cell.position)
+                            }
+                            isCellForNextPlay={
+                                !!cellForNextPlay &&
+                                areSamePosition(
+                                    cell.position,
+                                    cellForNextPlay.position
+                                )
                             }
                             cell={cell}
                             dispatch={dispatch}

@@ -5,14 +5,18 @@ import { Action } from "../gameCore/reducerFunction";
 
 export function CellC({
     cell,
+    isCellForNextPlay,
     dispatch,
 }: {
     cell: Cell;
+    isCellForNextPlay: boolean;
     dispatch: Dispatch<Action>;
 }) {
     return (
         <div
-            className={"cell " + cell.flavour}
+            className={
+                "cell " + cell.flavour + " " + (isCellForNextPlay ? "next" : "")
+            }
             onClick={() =>
                 dispatch({
                     type: "clicked",

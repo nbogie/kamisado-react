@@ -8,5 +8,6 @@ export function createInitialGameState(): GameState {
         selection: { from: null, to: null },
         nextFlavour: null,
         winState: { type: "in-play" },
+        // winState: { type: "won", winner: "black" },
     };
 }

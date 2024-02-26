@@ -80,3 +80,17 @@ export function isPathBlocked(from: Position, to: Position, gs: GameState) {
         return !!pieceAt(pos, gs);
     });
 }
+
+export function allCells(gameState: GameState): Cell[] {
+    return gameState.grid.rows.flatMap((row) => row);
+}
+export function calcCellForNextPlay(gameState: GameState): Cell | null {
+    const cell = allCells(gameState).find(
+        (cell) =>
+            cell.piece &&
+            cell.piece.owner === gameState.whoseTurn &&
+            cell.piece.flavour === gameState.nextFlavour
+    );
+
+    return cell ?? null;
+}

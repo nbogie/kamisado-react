@@ -62,3 +62,7 @@ export function isOnLine(from: Position, to: Position) {
         Math.abs(from.x - to.x) === Math.abs(from.y - to.y)
     );
 }
+
+export function areSamePosition(p1: Position, p2: Position) {
+    return p1.x === p2.x && p1.y === p2.y;
+}
