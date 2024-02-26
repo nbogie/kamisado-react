@@ -1,8 +1,8 @@
 import { useImmerReducer } from "use-immer";
 import "./App.css";
-import { createInitialGameState } from "./createInitialGameState";
-import { positionToString } from "./createInitialGrid";
-import { reducerFunction } from "./reducerFunction";
+import { createInitialGameState } from "../gameCore/createInitialGameState";
+import { positionToString } from "../gameCore/createInitialGrid";
+import { reducerFunction } from "../gameCore/reducerFunction";
 import { CellC } from "./CellC";
 import { GameOverOverlay } from "./GameOverOverlay";
 

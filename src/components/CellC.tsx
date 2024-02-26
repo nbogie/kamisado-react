@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
-import { Cell } from "./GameState";
+import { Cell } from "../gameCore/GameState";
 import { PieceC } from "./PieceC";
-import { Action } from "./reducerFunction";
+import { Action } from "../gameCore/reducerFunction";
 
 export function CellC({
     cell,

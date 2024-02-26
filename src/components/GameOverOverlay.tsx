@@ -1,5 +1,5 @@
-import { GameState } from "./GameState";
-import { Action } from "./reducerFunction";
+import { GameState } from "../gameCore/GameState";
+import { Action } from "../gameCore/reducerFunction";
 
 export function GameOverOverlay({
     gameState,
