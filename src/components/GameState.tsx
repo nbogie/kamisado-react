@@ -60,3 +60,22 @@ export function pieceAt(pos: Position, gs: GameState): Piece | null {
     const cell = cellAt(pos, gs);
     return cell?.piece ?? null;
 }
+
+export function clearSelection(gs: GameState) {
+    gs.selection = { from: null, to: null };
+}
+export function isOnLine(from: Position, to: Position) {
+    return (
+        from.x === to.x ||
+        from.y === to.y ||
+        Math.abs(from.x - to.x) === Math.abs(from.y - to.y)
+    );
+}
+export function isPositionInEndGoalFor(to: Position, owner: PlayerColour) {
+    return (
+        (to.y === 0 && owner === "black") || (to.y === 7 && owner === "white")
+    );
+}
+export function flipWhoseTurn(gs: GameState) {
+    gs.whoseTurn = gs.whoseTurn === "white" ? "black" : "white";
+}
