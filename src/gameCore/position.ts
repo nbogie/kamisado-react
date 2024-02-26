@@ -21,10 +21,7 @@ export function generateAllPositionsBetween(
         return generateAllPositionsBetweenDiagonal(from, to);
     }
 }
-export function generateAllPositionsBetweenDiagonal(
-    from: Position,
-    to: Position
-) {
+function generateAllPositionsBetweenDiagonal(from: Position, to: Position) {
     const positions: Position[] = [];
     const xDir = from.x < to.x ? 1 : -1;
     const yDir = from.y < to.y ? 1 : -1;
@@ -38,10 +35,7 @@ export function generateAllPositionsBetweenDiagonal(
     return positions;
 }
 
-export function generateAllPositionsBetweenHorizontal(
-    from: Position,
-    to: Position
-) {
+function generateAllPositionsBetweenHorizontal(from: Position, to: Position) {
     const positions: Position[] = [];
     const left = Math.min(from.x, to.x);
     const right = Math.max(from.x, to.x);
@@ -51,10 +45,7 @@ export function generateAllPositionsBetweenHorizontal(
     return positions;
 }
 
-export function generateAllPositionsBetweenVertical(
-    from: Position,
-    to: Position
-) {
+function generateAllPositionsBetweenVertical(from: Position, to: Position) {
     const positions: Position[] = [];
     const top = Math.min(from.y, to.y);
     const bottom = Math.max(from.y, to.y);
