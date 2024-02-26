@@ -3,6 +3,7 @@ import { GameState } from "./GameState";
 
 export function createInitialGameState(): GameState {
     return {
-        grid: createInitialGrid()
+        grid: createInitialGrid(),
+        selection: { from: null, to: null },
     };
 }

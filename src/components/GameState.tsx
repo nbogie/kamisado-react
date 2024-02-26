@@ -1,5 +1,9 @@
 export interface GameState {
     grid: Grid;
+    selection: {
+        from: Position | null;
+        to: Position | null;
+    };
 }
 
 export interface Grid {
