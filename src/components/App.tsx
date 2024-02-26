@@ -1,8 +1,9 @@
 import { useImmerReducer } from "use-immer";
 import "./App.css";
-import { reducerFunction } from "./reducerFunction";
 import { createInitialGameState } from "./createInitialGameState";
 import { positionToString } from "./createInitialGrid";
+import { reducerFunction } from "./reducerFunction";
+import { CellC } from "./CellC";
 
 function App() {
     const [gameState, dispatch] = useImmerReducer(
@@ -16,30 +17,15 @@ function App() {
             <div className="grid">
                 {gameState.grid.rows.flatMap((row) =>
                     row.map((cell) => (
-                        <div
-                            key={positionToString(cell.position)}
-                            className={"cell " + cell.colour}
-                            onClick={() =>
-                                dispatch({
-                                    type: "clicked",
-                                    pos: cell.position,
-                                })
+                        <CellC
+                            key={
+                                cell.piece
+                                    ? cell.piece.id
+                                    : positionToString(cell.position)
                             }
-                        >
-                            {cell.piece && (
-                                <div
-                                    className={
-                                        "piece " +
-                                        cell.piece.owner +
-                                        " " +
-                                        cell.piece.flavour
-                                    }
-                                >
-                                    {cell.piece.flavour}
-                                </div>
-                            )}
-                            {cell.colour}
-                        </div>
+                            cell={cell}
+                            dispatch={dispatch}
+                        />
                     ))
                 )}
             </div>
