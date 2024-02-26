@@ -3,11 +3,12 @@ import {
     cellAt,
     clearSelection,
     flipWhoseTurn,
-    isOnLine,
+    isPathBlocked,
     isPositionInEndGoalFor,
     pieceAt,
     selectionIsComplete,
 } from "./GameState";
+import { isOnLine } from "./position";
 import { ClickedAction } from "./reducerFunction";
 
 export function doPieceClicked(gs: GameState, action: ClickedAction) {
@@ -60,7 +61,10 @@ export function moveSelectedPiece(gs: GameState) {
         clearSelection(gs);
         return;
     }
-
+    if (isPathBlocked(from, to, gs)) {
+        clearSelection(gs);
+        return;
+    }
     fromCell.piece = undefined;
     toCell.piece = pieceToMove;
     gs.nextFlavour = toCell.flavour;

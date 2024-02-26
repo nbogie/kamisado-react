@@ -1,4 +1,5 @@
 import { positionToString } from "./createInitialGrid";
+import { Position, generateAllPositionsBetween } from "./position";
 
 export interface GameState {
     winState: { type: "in-play" } | { type: "won"; winner: PlayerColour };
@@ -40,7 +41,6 @@ export type Flavour =
     | "brown";
 export type PieceType = "standard";
 export type PlayerColour = "white" | "black";
-export type Position = { x: number; y: number };
 
 type CompleteSelection = { from: Position; to: Position };
 export function selectionIsComplete(
@@ -64,13 +64,7 @@ export function pieceAt(pos: Position, gs: GameState): Piece | null {
 export function clearSelection(gs: GameState) {
     gs.selection = { from: null, to: null };
 }
-export function isOnLine(from: Position, to: Position) {
-    return (
-        from.x === to.x ||
-        from.y === to.y ||
-        Math.abs(from.x - to.x) === Math.abs(from.y - to.y)
-    );
-}
+
 export function isPositionInEndGoalFor(to: Position, owner: PlayerColour) {
     return (
         (to.y === 0 && owner === "black") || (to.y === 7 && owner === "white")
@@ -78,4 +72,11 @@ export function isPositionInEndGoalFor(to: Position, owner: PlayerColour) {
 }
 export function flipWhoseTurn(gs: GameState) {
     gs.whoseTurn = gs.whoseTurn === "white" ? "black" : "white";
+}
+
+export function isPathBlocked(from: Position, to: Position, gs: GameState) {
+    const allPositions: Position[] = generateAllPositionsBetween(from, to);
+    return allPositions.some((pos) => {
+        return !!pieceAt(pos, gs);
+    });
 }

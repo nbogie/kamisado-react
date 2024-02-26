@@ -1,6 +1,7 @@
-import { GameState, Position } from "./GameState";
+import { GameState } from "./GameState";
 import { createInitialGameState } from "./createInitialGameState";
 import { doPieceClicked } from "./doPieceClicked";
+import { Position } from "./position";
 
 export type Action = ClickedAction | RestartAction;
 export type ClickedAction = { type: "clicked"; pos: Position };
