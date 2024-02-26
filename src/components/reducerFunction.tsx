@@ -6,9 +6,11 @@ import {
     pieceAt,
     selectionIsComplete,
 } from "./GameState";
+import { createInitialGameState } from "./createInitialGameState";
 
-export type Action = ClickedAction;
+export type Action = ClickedAction | RestartAction;
 export type ClickedAction = { type: "clicked"; pos: Position };
+export type RestartAction = { type: "restart" };
 
 export function reducerFunction(gs: GameState, action: Action) {
     switch (action.type) {
@@ -18,7 +20,7 @@ export function reducerFunction(gs: GameState, action: Action) {
                 if (
                     !p ||
                     p.owner !== gs.whoseTurn ||
-                    p.flavour !== gs.nextFlavour
+                    (gs.nextFlavour && p.flavour !== gs.nextFlavour)
                 ) {
                     return;
                 }
@@ -31,6 +33,9 @@ export function reducerFunction(gs: GameState, action: Action) {
                 moveSelectedPiece(gs);
             }
             break;
+        }
+        case "restart": {
+            return createInitialGameState();
         }
     }
 }

@@ -4,6 +4,7 @@ import { createInitialGameState } from "./createInitialGameState";
 import { positionToString } from "./createInitialGrid";
 import { reducerFunction } from "./reducerFunction";
 import { CellC } from "./CellC";
+import { GameOverOverlay } from "./GameOverOverlay";
 
 function App() {
     const [gameState, dispatch] = useImmerReducer(
@@ -14,6 +15,12 @@ function App() {
     return (
         <div className="App">
             <div className="grid">
+                {gameState.winState.type === "won" && (
+                    <GameOverOverlay
+                        gameState={gameState}
+                        dispatch={dispatch}
+                    />
+                )}
                 {gameState.grid.rows.flatMap((row) =>
                     row.map((cell) => (
                         <CellC
